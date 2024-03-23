@@ -96,33 +96,36 @@ public class ActionsAndSelectDemo {
         Actions moveColor = new Actions(driver);
         moveColor.click(colorPicker).moveByOffset(60, 70).perform();
     }
+
     @Test
-    public void paginationTest(){
+    public void paginationTest() {
         WebDriver driver = new ChromeDriver();
         driver.get("https://pagination.js.org/");
         WebElement demo1 = driver.findElement(By.id("demo1"));
         List<WebElement> items = demo1.findElements(By.cssSelector(".data-container ul li"));
         List<WebElement> pagination = demo1.findElements(By.cssSelector(".paginationjs-pages ul li"));
-                pagination.get(2).click();
+        pagination.get(2).click();
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         wait.until(ExpectedConditions.stalenessOf(items.get(0)));
         items = demo1.findElements(By.cssSelector(".data-container ul li"));
         //assertTrue(items.get(0).getText().equals("11"));
         assertEquals("11", items.get(0).getText());
     }
+
     @Test
-    public void waitVisibility(){
+    public void waitVisibility() {
         driver.get("https://the-internet.herokuapp.com/dynamic_loading/1");
         WebElement startButton = driver.findElement(By.xpath("//div[@id='start']/['button']"));
         startButton.click();
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
-       WebElement helloWorldText = wait.until(ExpectedConditions.visibilityOfElementLocated
-               (By.xpath("//div[@id='finish']/['start']")));
-               // assertEquals("Hello World!", helloWorldText.getText());
+        WebElement helloWorldText = wait.until(ExpectedConditions.visibilityOfElementLocated
+                (By.xpath("//div[@id='finish']/['start']")));
+        // assertEquals("Hello World!", helloWorldText.getText());
     }
+
     @Test
-    public void uploadFile(){
+    public void uploadFile() {
         driver.get("https://www.selenium.dev/selenium/web/web-form.html");
         File uploadFile = new File("C:\\Users\\my\\IdeaProjects\\SeleniumDemo\\test.docx");
         WebElement fileInput = driver.findElement(By.cssSelector("[type=file]"));
@@ -131,4 +134,29 @@ public class ActionsAndSelectDemo {
         submitButton.click();
     }
 
+    @Test
+    public void tableClickEdit() {
+        // To click edit button of "Doe Jason and to print $sum."
+        driver.get("https://the-internet.herokuapp.com/tables");
+        List<WebElement> lastNames = driver.findElements(By.xpath("//*[@id='table1']/tbody/tr/td[1]"));
+        for (WebElement lastName : lastNames) {
+            if (lastName.getText().equals("Doe")) {
+                WebElement firstName = driver.findElement(By.xpath("//*[@id='table1']//tr[td[contains(text(),'Doe')]]/td[2]"));
+                if (firstName.getText().equals("Jason")) {
+                    WebElement editButton = driver.findElement(By.xpath("//*[@id='table1']//tr[td[contains(text(),'Doe')]]/td[6]/a[@href='#edit']"));
+                    editButton.click();
+                    WebElement money = driver.findElement(By.xpath("//*[@id='table1']//tr[td[contains(text(),'Doe')]]/td[4]"));
+                    System.out.println(money.getText());
+
+                }
+            }
+        }
+    }
 }
+
+
+
+
+
+
+
