@@ -1,2 +1,5 @@
-package Selenium2;public class AllOptions {
+package Selenium2;
+
+public class AllOptions {
+
 }
