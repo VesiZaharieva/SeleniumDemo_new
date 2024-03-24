@@ -20,6 +20,7 @@ import java.io.File;
 import java.time.Duration;
 import java.util.List;
 
+import static org.openqa.selenium.support.ui.ExpectedConditions.*;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
 
@@ -119,7 +120,7 @@ public class ActionsAndSelectDemo {
         startButton.click();
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
-        WebElement helloWorldText = wait.until(ExpectedConditions.visibilityOfElementLocated
+        WebElement helloWorldText = wait.until(visibilityOfElementLocated
                 (By.xpath("//div[@id='finish']/['start']")));
         // assertEquals("Hello World!", helloWorldText.getText());
     }
@@ -128,6 +129,16 @@ public class ActionsAndSelectDemo {
     public void uploadFile() {
         driver.get("https://www.selenium.dev/selenium/web/web-form.html");
         File uploadFile = new File("C:\\Users\\my\\IdeaProjects\\SeleniumDemo\\test.docx");
+        WebElement fileInput = driver.findElement(By.cssSelector("[type=file]"));
+        fileInput.sendKeys(uploadFile.getAbsolutePath());
+        WebElement submitButton = driver.findElement(By.cssSelector("[type=submit]"));
+        submitButton.click();
+    }
+
+    @Test
+    public void waitUploadFile() {
+        driver.get("https://www.selenium.dev/selenium/web/web-form.html");
+        File uploadFile = new File("C:\\Users\\my\\IdeaProjects\\SeleniumDemo\\target\\istockphoto-1353370109-640_adpp_is.mp4");
         WebElement fileInput = driver.findElement(By.cssSelector("[type=file]"));
         fileInput.sendKeys(uploadFile.getAbsolutePath());
         WebElement submitButton = driver.findElement(By.cssSelector("[type=submit]"));
@@ -151,6 +162,42 @@ public class ActionsAndSelectDemo {
                 }
             }
         }
+    }
+
+    @Test
+    public void loginGlitchUser() {
+        // test wait
+        driver.get("https://www.saucedemo.com/");
+        WebElement username = driver.findElement(By.cssSelector("[placeholder = Username]"));
+        username.sendKeys("performance_glitch_user");
+        WebElement password = driver.findElement(By.cssSelector("[placeholder=Password]"));
+        password.sendKeys("secret_sauce");
+        WebElement loginButton = driver.findElement(By.cssSelector("[value=Login]"));
+        loginButton.click();
+        assertEquals(driver.getCurrentUrl(), "https://www.saucedemo.com/inventory.html");
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(2));
+        WebElement pageTitle = wait.until(visibilityOfElementLocated(By.className("title")));
+        Assert.assertTrue(pageTitle.isDisplayed());
+        WebElement addProductButton = driver.findElement(By.cssSelector("[name^=add-to-cart-sauce]"));
+        addProductButton.click();
+    }
+
+    @Test
+    public void waits() {
+        driver.get("https://www.broshura.bg/b/4863703#page-1");
+
+        WebDriverWait waitToShow = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebElement cookieWindow1 = waitToShow.until(visibilityOfElementLocated(By.id("cookiescript_injected_wrapper")));
+
+        WebElement cookieClose = driver.findElement(By.cssSelector("div.cookiescript_pre_header #cookiescript_close"));
+        cookieClose.click();
+        WebDriverWait waitToClose = new WebDriverWait(driver, Duration.ofSeconds(10));
+        Boolean cookieWindow2 = waitToClose.until(invisibilityOfElementLocated(By.id("cookiescript_injected_wrapper")));
+
+        //WebElement nextBrochure = driver.findElement(By.xpath("//nav[@class='og-navigation-bottom']//div[@class='og-is-right']"));
+        WebDriverWait waitToBeClickable = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebElement nextBrochureButton = waitToBeClickable.until(elementToBeClickable(By.xpath("//nav[@class='og-navigation-bottom']//div[@class='og-is-right']")));
+        nextBrochureButton.click();
     }
 }
 
