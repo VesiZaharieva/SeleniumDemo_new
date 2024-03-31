@@ -1,9 +1,6 @@
 package dev.selenium;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.interactions.Actions;
@@ -18,6 +15,7 @@ import org.testng.annotations.Test;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.openqa.selenium.support.ui.ExpectedConditions.*;
@@ -158,10 +156,14 @@ public class ActionsAndSelectDemo {
                     editButton.click();
                     WebElement money = driver.findElement(By.xpath("//*[@id='table1']//tr[td[contains(text(),'Doe')]]/td[4]"));
                     System.out.println(money.getText());
-
+//table[@id='table1']//td[contains(text(), 'Frank'0]/../td/a/[contains(text(),'edit')]
                 }
             }
         }
+    }
+    @Test
+    public void Table2(){
+
     }
 
     @Test
@@ -192,12 +194,102 @@ public class ActionsAndSelectDemo {
         WebElement cookieClose = driver.findElement(By.cssSelector("div.cookiescript_pre_header #cookiescript_close"));
         cookieClose.click();
         WebDriverWait waitToClose = new WebDriverWait(driver, Duration.ofSeconds(10));
-        Boolean cookieWindow2 = waitToClose.until(invisibilityOfElementLocated(By.id("cookiescript_injected_wrapper")));
+        //WebElement cookieWindow2 = waitToClose.until(stalenessOf(WebElement)By.id("cookiescript_injected_wrapper")));
+
 
         //WebElement nextBrochure = driver.findElement(By.xpath("//nav[@class='og-navigation-bottom']//div[@class='og-is-right']"));
         WebDriverWait waitToBeClickable = new WebDriverWait(driver, Duration.ofSeconds(10));
         WebElement nextBrochureButton = waitToBeClickable.until(elementToBeClickable(By.xpath("//nav[@class='og-navigation-bottom']//div[@class='og-is-right']")));
         nextBrochureButton.click();
+    }
+
+    @Test
+    public void removeCheckBox() {
+        driver.get("https://the-internet.herokuapp.com/dynamic_controls");
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebElement checkBox = driver.findElement(By.cssSelector("div#checkbox"));
+        WebElement checkBoxInput = driver.findElement(By.cssSelector("input[type=checkbox]"));
+        checkBoxInput.click();
+        WebElement removeButton = driver.findElement(By.cssSelector("button[onclick='swapCheckbox()']"));
+        removeButton.click();
+        wait.until(ExpectedConditions.stalenessOf(checkBoxInput)); //or
+        WebElement message = driver.findElement(By.cssSelector("p#message"));
+        wait.until(ExpectedConditions.visibilityOf(message));
+        Assert.assertEquals(message.getText(), "It's gone!");
+        removeButton.click();
+        WebElement message2 = driver.findElement(By.cssSelector("p#message"));//......?
+        wait.until(ExpectedConditions.visibilityOf(message2));
+        Assert.assertEquals(message2.getText(), "It's back!");
+
+    }
+
+    @Test
+    public void acceptAlertTest() {
+        driver.get("https://the-internet.herokuapp.com/javascript_alerts");
+        driver.findElement(By.cssSelector("button[onclick='jsAlert()']")).click();
+        //driver.switchTo().alert().accept();
+
+        Alert alert = driver.switchTo().alert();
+        alert.accept();
+        //alert.dismiss();
+        WebElement result = driver.findElement(By.id("result"));
+        assertEquals("You successfully clicked an alert", result.getText());
+    }
+
+    @Test
+    public void dismissAlert() {
+        driver.get("https://the-internet.herokuapp.com/javascript_alerts");
+        driver.findElement(By.cssSelector("button[onclick='jsConfirm()']")).click();
+        Alert alert = driver.switchTo().alert();
+        alert.dismiss();
+        WebElement result = driver.findElement(By.id("result"));
+        assertEquals("You clicked: Cancel", result.getText());
+    }
+
+    @Test
+    public void promptAlert() {
+        driver.get("https://the-internet.herokuapp.com/javascript_alerts");
+        driver.findElement(By.cssSelector("button[onclick='jsPrompt()']")).click();
+        Alert alert = driver.switchTo().alert();
+        alert.sendKeys("Vesela");
+        alert.accept();
+        WebElement result = driver.findElement(By.id("result"));
+        assertEquals("You entered: Vesela", result.getText());
+    }
+
+    @Test
+    public void newTabTest() {
+        driver.get("https://the-internet.herokuapp.com/windows");
+        WebElement link = driver.findElement(By.linkText("Click Here"));
+        link.click();
+        ArrayList<String> tabs = new ArrayList<>(driver.getWindowHandles());
+        driver.switchTo().window(tabs.get(1));
+        WebElement header = driver.findElement(By.tagName("h3"));
+        String headerText = header.getText();
+        driver.close();
+        driver.switchTo().window(tabs.get(0));
+    }
+
+    @Test
+    public void nestedFramesTest() {
+        driver.get("https://the-internet.herokuapp.com/frames");
+        driver.findElement(By.linkText("Nested Frames")).click();
+        driver.switchTo().frame("frame-top");
+        driver.switchTo().frame("frame-left");
+        WebElement leftElement = driver.findElement(By.tagName("body"));
+        leftElement.getText();
+        driver.switchTo().parentFrame();
+        driver.switchTo().defaultContent();
+    }
+
+    @Test
+    public void iFrameTest() {
+        driver.get("https://the-internet.herokuapp.com/iframe");
+        driver.switchTo().frame("mce_0_ifr");
+        WebElement textField = driver.findElement(By.cssSelector("body#tinymce"));
+        textField.clear();
+        textField.sendKeys("Text for test.");
+        driver.switchTo().defaultContent();
     }
 }
 
