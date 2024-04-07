@@ -1,28 +1,27 @@
 package pages;
 
-import org.openqa.selenium.By;
+import dev.selenium.base.BasePage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.FindBys;
-import org.openqa.selenium.support.PageFactory;
-
-import java.util.List;
 
 public class LoginPage extends BasePage {
     //private WebDriver driver;
-
-    @FindBy(id = "user-name")
+    public LoginPage(WebDriver driver) {
+        super(driver);
+    }
+    @FindBy(css = "[placeholder=Username]")
     private WebElement usernameInput; // Equals to private By userName = By.id("");
 
     //-> private By userName = By.id("");
     // Equals to @FindBy (id = "user-name")   private WebElement usernameInput;
     //and no need od constructor LoginPage
 
-    @FindBy(id = "password")
+
+    @FindBy(css = "[placeholder=Password]")
     private WebElement passwordInput;
 
-    @FindBy(id = "login-button")
+    @FindBy(css = "[value=Login]")
     private WebElement loginButton;
 
     //@FindBys({
@@ -30,8 +29,11 @@ public class LoginPage extends BasePage {
             //@FindBy(id = "password")})
     //private List<WebElement> LoginButton;
 
-    @FindBy(css = "[data-test=error]")
+    @FindBy(className = ".error-message-container")
     private WebElement errorMessage;
+
+    @FindBy (css = "#cmplz-cookiebanner-container .cmplz-accept")
+    private WebElement element;
 
     //@FindBys( {
     // @FindBy(id = "login-button"),
@@ -40,12 +42,11 @@ public class LoginPage extends BasePage {
 
 //@FindBy (xpath = "//login-button")
 //private WebElement loginButton;
-
-    public LoginPage(WebDriver driver) {
-        //this.driver = driver;
-        //PageFactory.initElements(driver, this);
-        super(driver);
+    public void DevBg(){
+        element.click();
     }
+
+
 
     public void setUsername(String username) {
         usernameInput.sendKeys(username);
@@ -65,6 +66,11 @@ public class LoginPage extends BasePage {
 
     public String getErrorMessage() {
         return errorMessage.getText();
+    }
+    public void loginAs (String username, String password) {
+        setUsername(username);
+        setPassword(password);
+        clickLoginButton();
     }
     // public boolean isCartEmpty(){
     //if (passwordInput.size() == 0) {

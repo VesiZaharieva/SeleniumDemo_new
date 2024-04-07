@@ -1,16 +1,17 @@
 package dev.selenium;
 
+//import dev.selenium.base.MainDriver;
+import dev.selenium.base.MainTest;
 import org.openqa.selenium.By;
 
 import org.openqa.selenium.WebElement;
 
 import org.testng.annotations.Test;
 
-import java.time.Duration;
 import java.util.List;
 
 
-public class SeleniumDemo extends MainDriver {
+public class SeleniumDemo extends MainTest {
 
     @Test
     public void test0PenBrowser() {

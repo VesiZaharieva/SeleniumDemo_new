@@ -1,12 +1,13 @@
 package dev.selenium;
 
+import dev.selenium.base.MainTest;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.annotations.Test;
 
 import java.time.Duration;
 
-public class SeleniumDemo2 extends MainDriver {
+public class SeleniumDemo2 extends MainTest {
     @Test
     public void test0PenBrowser() {
         //WebDriver driver = new ChromeDriver();
