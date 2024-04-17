@@ -1,6 +1,7 @@
 package dev.selenium;
 
 import dev.selenium.base.MainTest;
+import dev.selenium.driver.DriverFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.annotations.Test;
@@ -11,19 +12,19 @@ public class SeleniumDemo2 extends MainTest {
     @Test
     public void test0PenBrowser() {
         //WebDriver driver = new ChromeDriver();
-        driver.getTitle();
+        DriverFactory.getDriver().getTitle();
 
-        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(500));
+        DriverFactory.getDriver().manage().timeouts().implicitlyWait(Duration.ofMillis(500));
 
-        WebElement textBox = driver.findElement(By.id("my-text-id-test"));
-        WebElement submitButton = driver.findElement(By.cssSelector("button"));
+        WebElement textBox = DriverFactory.getDriver().findElement(By.id("my-text-id-test"));
+        WebElement submitButton = DriverFactory.getDriver().findElement(By.cssSelector("button"));
 
-        driver.navigate().refresh();
+        DriverFactory.getDriver().navigate().refresh();
 
         textBox.sendKeys("Selenium");
         submitButton.click();
 
-        WebElement message = driver.findElement(By.id("message"));
+        WebElement message = DriverFactory.getDriver().findElement(By.id("message"));
         message.getText();
 
 

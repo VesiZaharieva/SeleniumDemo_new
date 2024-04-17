@@ -1,15 +1,16 @@
 package pages;
 
 import dev.selenium.base.BasePage;
+import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 public class LoginPage extends BasePage {
     //private WebDriver driver;
-    public LoginPage(WebDriver driver) {
-        super(driver);
-    }
+    //public LoginPage(WebDriver driver) {
+    //super(driver);
+    // }
     @FindBy(css = "[placeholder=Username]")
     private WebElement usernameInput; // Equals to private By userName = By.id("");
 
@@ -25,14 +26,14 @@ public class LoginPage extends BasePage {
     private WebElement loginButton;
 
     //@FindBys({
-            //@FindBy(id = "login-button"),
-            //@FindBy(id = "password")})
+    //@FindBy(id = "login-button"),
+    //@FindBy(id = "password")})
     //private List<WebElement> LoginButton;
 
-    @FindBy(className = ".error-message-container")
+    @FindBy(css = ".error-message-container")
     private WebElement errorMessage;
 
-    @FindBy (css = "#cmplz-cookiebanner-container .cmplz-accept")
+    @FindBy(css = "#cmplz-cookiebanner-container .cmplz-accept")
     private WebElement element;
 
     //@FindBys( {
@@ -40,18 +41,18 @@ public class LoginPage extends BasePage {
     //@FindBy(id = "password")})
     //private List<WebElement> LoginButton;
 
-//@FindBy (xpath = "//login-button")
+    //@FindBy (xpath = "//login-button")
 //private WebElement loginButton;
-    public void DevBg(){
+    public void DevBg() {
         element.click();
     }
 
-
-
+    @Step("Username")
     public void setUsername(String username) {
         usernameInput.sendKeys(username);
     }
 
+    @Step("Password")
     public void setPassword(String password) {
         passwordInput.sendKeys(password);
     }
@@ -60,14 +61,18 @@ public class LoginPage extends BasePage {
     //LoginButton.click();
     //return new ProductsPage(driver);
     //}
+    @Step("LoginButton")
     public void clickLoginButton() {
         loginButton.click();
     }
 
+    @Step("errorMessage")
     public String getErrorMessage() {
         return errorMessage.getText();
     }
-    public void loginAs (String username, String password) {
+
+@Step("Login As")
+    public void loginAs(String username, String password) {
         setUsername(username);
         setPassword(password);
         clickLoginButton();

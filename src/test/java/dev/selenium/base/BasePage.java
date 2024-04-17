@@ -1,5 +1,6 @@
 package dev.selenium.base;
 
+import dev.selenium.driver.DriverFactory;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -12,8 +13,8 @@ public class BasePage {
     public WebDriver driver;
     public WebDriverWait wait;
 
-    public BasePage(WebDriver driver) {
-        this.driver = driver;
+    public BasePage() {
+        this.driver = DriverFactory.getDriver();
         PageFactory.initElements(driver,this );
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }

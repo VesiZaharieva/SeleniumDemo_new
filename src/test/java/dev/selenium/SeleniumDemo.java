@@ -2,6 +2,7 @@ package dev.selenium;
 
 //import dev.selenium.base.MainDriver;
 import dev.selenium.base.MainTest;
+import dev.selenium.driver.DriverFactory;
 import org.openqa.selenium.By;
 
 import org.openqa.selenium.WebElement;
@@ -37,38 +38,38 @@ public class SeleniumDemo extends MainTest {
         //WebElement textInput = driver.findElement(By.cssSelector("#my-text-id"));
         //textInput.click();
 
-        WebElement password = driver.findElement(By.xpath("//*[@name='my-password']"));
+        WebElement password = DriverFactory.getDriver().findElement(By.xpath("//*[@name='my-password']"));
         password.click();
 
-        WebElement textInput = driver.findElement(By.xpath("//*[@id='my-text-id']"));
+        WebElement textInput = DriverFactory.getDriver().findElement(By.xpath("//*[@id='my-text-id']"));
         textInput.click();
 
 
-        WebElement textArea = driver.findElement(By.cssSelector("[type=text].form-control[name*=text]"));
+        WebElement textArea = DriverFactory.getDriver().findElement(By.cssSelector("[type=text].form-control[name*=text]"));
         textArea.click();
 
-        WebElement checkBox1 = driver.findElement(By.cssSelector("[type=checkbox][id $='1']"));
+        WebElement checkBox1 = DriverFactory.getDriver().findElement(By.cssSelector("[type=checkbox][id $='1']"));
         checkBox1.click();
 
-        WebElement checkBox2 = driver.findElement(By.cssSelector("[type=checkbox][id $='2']"));
+        WebElement checkBox2 = DriverFactory.getDriver().findElement(By.cssSelector("[type=checkbox][id $='2']"));
         checkBox2.click();
 
-        WebElement colorPicker = driver.findElement(By.cssSelector("[type=color]"));
+        WebElement colorPicker = DriverFactory.getDriver().findElement(By.cssSelector("[type=color]"));
         colorPicker.click();
 
         //WebElement radioButtonChecked = driver.findElement(By.cssSelector("[name=my-radio][checked]"));
         //radioButtonChecked.click();
 
-        WebElement radioButtonChecked = driver.findElement(By.xpath("//h1[contains(text(),'Textarea')]"));
+        WebElement radioButtonChecked = DriverFactory.getDriver().findElement(By.xpath("//h1[contains(text(),'Textarea')]"));
         radioButtonChecked.click();
 
-        WebElement buttonSubmit = driver.findElement(By.cssSelector("button[type=submit]"));
+        WebElement buttonSubmit = DriverFactory.getDriver().findElement(By.cssSelector("button[type=submit]"));
         buttonSubmit.click();
     }
 
     @Test
     public void testList() {
-        List<WebElement> myList = driver.findElements(By.cssSelector("input"));
+        List<WebElement> myList = DriverFactory.getDriver().findElements(By.cssSelector("input"));
         myList.get(2).click();
 
     }

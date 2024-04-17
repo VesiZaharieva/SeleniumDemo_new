@@ -20,11 +20,11 @@ public class ProductsPage extends BasePage {
     @FindBy (css = ".shopping_cart_badge")
     private WebElement shoppingCartBadge;
 
-    public ProductsPage(WebDriver driver) {
-        super(driver);
+    //public ProductsPage(WebDriver driver) {
+        //super(driver);
         //this.driver = driver;
         //PageFactory.initElements(driver, this);
-    }
+    //}
 
     public String getPageTitle() {
         return pageTitle.getText();
@@ -42,7 +42,7 @@ public class ProductsPage extends BasePage {
 
     //}
     public HeaderComponent header() {
-        return new HeaderComponent(driver);
+        return new HeaderComponent();
     }
 
     public void openShoppingCart(){
